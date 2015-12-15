@@ -1,6 +1,6 @@
 language: python
 sudo: false
-install: tools/install.sh
+install: tools/travis-install.sh
 cache:
     directories:
         - $HOME/.cache/pip
