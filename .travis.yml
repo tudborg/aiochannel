@@ -12,3 +12,9 @@ before_install:
   - pip install codecov
 after_success:
   - codecov
+addons:
+  apt:
+    sources:
+      - deadsnakes
+    packages:
+      - python3.5
