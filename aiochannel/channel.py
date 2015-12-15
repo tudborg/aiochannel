@@ -1,11 +1,6 @@
 import asyncio
 from .errors import *
 
-if hasattr(asyncio, 'ensure_future'):
-    ensure_future = getattr(asyncio, 'ensure_future')
-else:
-    ensure_future = getattr(asyncio, 'async')
-
 
 class Channel(object):
     def __init__(self, maxsize=0, loop=None):
@@ -78,7 +73,7 @@ class Channel(object):
                     return item
                 else:
                     # else we are okay with blocking gets
-                    get_future = ensure_future(self._queue.get(), loop=self._loop)
+                    get_future = asyncio.ensure_future(self._queue.get(), loop=self._loop)
                     self._pending_gets.append(get_future)
                     try:
                         item = yield from get_future
@@ -97,7 +92,7 @@ class Channel(object):
         if self._close.is_set():
             raise ChannelClosed("channel is closed")
         else:
-            put_future = ensure_future(self._queue.put(item), loop=self._loop)
+            put_future = asyncio.ensure_future(self._queue.put(item), loop=self._loop)
             self._pending_puts.append(put_future)
             try:
                 yield from put_future

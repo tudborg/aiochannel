@@ -1,6 +1,6 @@
 import unittest
 import asyncio
-from aiochannel import Channel, ChannelClosed
+from aiochannel import Channel, ChannelClosed, ChannelFull, ChannelEmpty
 
 
 class ChannelTest(unittest.TestCase):
@@ -21,6 +21,20 @@ class ChannelTest(unittest.TestCase):
         self.assertEqual(channel.maxsize, 1)
         channel = Channel(maxsize=1, loop=self.loop)
         self.assertEqual(channel.maxsize, 1)
+
+    def test_str_and_repr(self):
+        channel = Channel(loop=self.loop)
+        expt = "<aiochannel.channel.Channel at 0x{:02x} maxsize=0 qsize=0>".format(id(channel))
+        self.assertEqual(repr(channel), expt)
+
+        self.assertEqual(repr(channel), str(channel))
+
+    def test_put_nowait_get_nowait(self):
+        channel = Channel(1, loop=self.loop)
+        channel.put_nowait("foo")
+        self.assertRaises(ChannelFull, lambda: channel.put_nowait("bar"))
+        self.assertEqual("foo", channel.get_nowait())
+        self.assertRaises(ChannelEmpty, lambda: channel.get_nowait())
 
     def test_put_get(self):
         """
@@ -109,6 +123,7 @@ class ChannelTest(unittest.TestCase):
                            return_exceptions=True)
         )
         self.assertIsInstance(put_return, ChannelClosed)
+        self.assertTrue(channel.is_closed())
 
     def test_multiple_blocking_gets(self):
         """
@@ -198,3 +213,16 @@ class ChannelTest(unittest.TestCase):
             self.loop.run_until_complete(channel.join(0.01))
 
         self.assertRaises(asyncio.TimeoutError, test)
+
+    def test_put_when_closed(self):
+        channel = Channel(1, loop=self.loop)
+        channel.close()
+        self.assertRaises(ChannelClosed, lambda: self.loop.run_until_complete(channel.put("foo")))
+
+    def test_double_close(self):
+        channel = Channel(1, loop=self.loop)
+        self.assertFalse(channel.is_closed())
+        channel.close()
+        self.assertTrue(channel.is_closed())
+        channel.close()
+        self.assertTrue(channel.is_closed())
