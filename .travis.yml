@@ -1,0 +1,18 @@
+language: python
+sudo: false
+install: tools/install.sh
+cache:
+    directories:
+        - $HOME/.cache/pip
+env:
+  - TOXENV=py27
+  - TOXENV=py32
+  - TOXENV=py33
+  - TOXENV=py34
+  - TOXENV=py35
+
+script: tox
+before_install:
+  - pip install codecov
+after_success:
+  - codecov
