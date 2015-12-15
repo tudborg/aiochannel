@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/tbug/aiochannel.svg?branch=master)](https://travis-ci.org/tbug/aiochannel)
+
 aiochannel - AsyncIO Channel
 ============================
 
