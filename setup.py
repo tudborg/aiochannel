@@ -8,14 +8,17 @@ import os
 from os import path
 from setuptools import setup, find_packages
 
-MYDIR = path.abspath(os.path.dirname(__file__))
+ROOT_DIR = path.abspath(path.dirname(__file__))
 
-VERSION = imp.load_source('version', path.join(MYDIR, 'aiochannel', 'version.py'))
+SRC_DIR = path.join(ROOT_DIR, 'aiochannel')
+VERSION = imp.load_source('version', path.join(SRC_DIR, 'version.py'))
 VERSION = VERSION.__version__
 
 REQUIRES = []
 
-LONG_DESCRIPTION = io.open(os.path.join(MYDIR, 'README.md'), 'r', encoding='utf-8').read()
+LONG_DESCRIPTION = io.open(path.join(ROOT_DIR, 'README.md'), 'r', encoding='utf-8').read()
+
+packages = find_packages(exclude=['test'])
 
 setup(
     name='aiochannel',
@@ -35,7 +38,7 @@ setup(
     author='Henrik Tudborg',
     author_email='henrik@tud.org',
     url='github.com/tbug/aiochannel',
-    packages=find_packages(exclude=['test']),
+    packages=packages,
     include_package_data=True,
     zip_safe=False,
     install_requires=REQUIRES,
