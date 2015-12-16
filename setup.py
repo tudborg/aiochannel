@@ -10,7 +10,7 @@ from setuptools import setup, find_packages
 
 MYDIR = path.abspath(os.path.dirname(__file__))
 
-VERSION = imp.load_source('version', path.join('.', 'aiochannel', 'version.py'))
+VERSION = imp.load_source('version', path.join(MYDIR, 'aiochannel', 'version.py'))
 VERSION = VERSION.__version__
 
 REQUIRES = []
