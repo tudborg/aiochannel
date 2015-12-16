@@ -8,6 +8,11 @@ Channel concept for asyncio.
 *requires* Python 3.4.4+ (I think)
 
 
+Stability
+-----------
+alpha-ish?
+
+
 Usage
 -----------
 
