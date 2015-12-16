@@ -302,3 +302,13 @@ class ChannelTest(unittest.TestCase):
             channel.put_nowait("foo")
 
         self.arungather(channel.get(), channel.get(), test_done_first_then_put())
+
+    def test_get_nowait_raises_closed(self):
+        channel = Channel(1, loop=self.loop)
+        channel.put_nowait("foo")
+        channel.close()
+
+        item = channel.get_nowait()
+        self.assertEqual(item, "foo")
+
+        self.assertRaises(ChannelClosed, lambda: channel.get_nowait())

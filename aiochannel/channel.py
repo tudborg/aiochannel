@@ -120,7 +120,7 @@ class Channel(object):
         If channel is empty, wait until an item is available.
         This method is a coroutine.
         """
-        while self.empty():
+        while self.empty() and not self._close.is_set():
             getter = Future(loop=self._loop)
             self._getters.append(getter)
             try:
@@ -141,7 +141,10 @@ class Channel(object):
         Return an item if one is immediately available, else raise ChannelEmpty.
         """
         if self.empty():
-            raise ChannelEmpty
+            if self._close.is_set():
+                raise ChannelClosed
+            else:
+                raise ChannelEmpty
         item = self._get()
         if self.empty() and self._close.is_set():
             # if empty _after_ we retrieved an item AND marked for closing,
