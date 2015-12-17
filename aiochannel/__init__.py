@@ -1,3 +1,3 @@
 from .channel import *
 from .errors import *
-from .version import __version__
+from .version import *

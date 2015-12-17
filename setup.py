@@ -4,7 +4,6 @@
 #
 import imp
 import io
-import os
 from os import path
 from setuptools import setup, find_packages
 
@@ -18,7 +17,7 @@ REQUIRES = []
 
 LONG_DESCRIPTION = io.open(path.join(ROOT_DIR, 'README.md'), 'r', encoding='utf-8').read()
 
-packages = find_packages(exclude=['test'])
+packages = find_packages(exclude=['tests'])
 
 setup(
     name='aiochannel',
@@ -26,6 +25,8 @@ setup(
     description='',
     long_description=LONG_DESCRIPTION,
     classifiers=[
+        'Development Status :: 3 - Alpha',
+        'License :: OSI Approved :: Apache Software License',
         'Natural Language :: English',
         'Intended Audience :: Developers',
         'Intended Audience :: System Administrators',
@@ -42,5 +43,6 @@ setup(
     include_package_data=True,
     zip_safe=False,
     install_requires=REQUIRES,
-    setup_requires=[]
+    setup_requires=[],
+    license='Apache 2.0'
 )
