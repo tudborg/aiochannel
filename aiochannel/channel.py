@@ -50,11 +50,12 @@ class Channel(object):
                 break
 
     def __repr__(self):
-        return '<{} at {:#x} maxsize={!r}>'.format(
-            type(self).__name__, id(self), self._maxsize)
+        return '<{} at {:#x} maxsize={!r} qsize={!r}>'.format(
+            type(self).__name__, id(self), self._maxsize, self.qsize())
 
     def __str__(self):
-        return '<{} maxsize={!r}>'.format(type(self).__name__, self._maxsize)
+        return '<{} maxsize={!r} qsize={!r}>'.format(
+            type(self).__name__, self._maxsize, self.qsize())
 
     def qsize(self):
         """Number of items in the channel buffer."""
@@ -176,3 +177,17 @@ class Channel(object):
     def closed(self):
         """Returns True if the Channel is marked as closed"""
         return self._close.is_set()
+
+    @coroutine
+    def __aiter__(self):
+        """Returns an async iterator (self)"""
+        return self
+
+    @coroutine
+    def __anext__(self):
+        try:
+            data = yield from self.get()
+        except ChannelClosed:
+            raise StopAsyncIteration
+        else:
+            return data

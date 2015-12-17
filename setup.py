@@ -22,7 +22,7 @@ packages = find_packages(exclude=['tests'])
 setup(
     name='aiochannel',
     version=VERSION,
-    description='',
+    description='asyncio Channels (closable queues) inspired by golang',
     long_description=LONG_DESCRIPTION,
     classifiers=[
         'Development Status :: 3 - Alpha',

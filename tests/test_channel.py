@@ -1,21 +1,15 @@
-import unittest
+from .case import TestCase
 import asyncio
 from aiochannel import Channel, ChannelClosed, ChannelFull, ChannelEmpty
 
 
-class ChannelTest(unittest.TestCase):
-    def setUp(self):
-        self.loop = asyncio.new_event_loop()
-        asyncio.set_event_loop(None)
-
-    def tearDown(self):
-        self.loop.close()
+class ChannelTest(TestCase):
 
     def arun(self, coros_or_future):
         return self.loop.run_until_complete(coros_or_future)
 
     def arungather(self, *coros_or_futures, return_exceptions=False):
-        return self.arun(
+        return self.ruc(
             asyncio.gather(
                 *coros_or_futures,
                 loop=self.loop,
@@ -46,11 +40,13 @@ class ChannelTest(unittest.TestCase):
 
     def test_repr(self):
         channel = Channel(loop=self.loop)
-        self.assertEqual(repr(channel), "<Channel at 0x{:02x} maxsize=0>".format(id(channel)))
+        self.assertEqual(repr(channel),
+                         "<Channel at 0x{:02x} maxsize=0 qsize=0>".format(id(channel)))
 
     def test_str(self):
         channel = Channel(loop=self.loop)
-        self.assertEqual(str(channel), "<Channel maxsize=0>")
+        self.assertEqual(str(channel),
+                         "<Channel maxsize=0 qsize=0>")
 
     def test_put_nowait_get_nowait(self):
         channel = Channel(1, loop=self.loop)
@@ -65,13 +61,13 @@ class ChannelTest(unittest.TestCase):
         """
         testitem = {"foo": "bar"}
         channel = Channel(1, loop=self.loop)
-        self.arun(channel.put(testitem))
+        self.ruc(channel.put(testitem))
 
         self.assertEqual(channel.qsize(), 1)
         self.assertTrue(channel.full())
         self.assertFalse(channel.empty())
 
-        item = self.arun(channel.get())
+        item = self.ruc(channel.get())
         self.assertEqual(item, testitem)
         self.assertEqual(channel.qsize(), 0)
         self.assertFalse(channel.full())
@@ -100,10 +96,10 @@ class ChannelTest(unittest.TestCase):
             return out
 
         # add and check for full
-        self.arun(add_items())
+        self.ruc(add_items())
         self.assertTrue(channel.full())
         # retreive and check that everything matches
-        outitems = self.arun(get_items())
+        outitems = self.ruc(get_items())
         self.assertEqual(outitems, testitems)
 
     def test_get_throws_channel_closed(self):
@@ -119,7 +115,7 @@ class ChannelTest(unittest.TestCase):
             yield from asyncio.sleep(0.01, loop=self.loop)
             channel.close()
 
-        (get_return, _) = self.arungather(channel.get(), wait_close(), return_exceptions=True)
+        (get_return, _) = self.rucgather(channel.get(), wait_close(), return_exceptions=True)
         self.assertIsInstance(get_return, ChannelClosed)
 
     def test_put_throws_channel_closed(self):
@@ -136,7 +132,7 @@ class ChannelTest(unittest.TestCase):
             yield from asyncio.sleep(0.01, loop=self.loop)
             channel.close()
 
-        (put_return, _) = self.arungather(channel.put("bar"), wait_close(), return_exceptions=True)
+        (put_return, _) = self.rucgather(channel.put("bar"), wait_close(), return_exceptions=True)
         self.assertIsInstance(put_return, ChannelClosed)
         self.assertTrue(channel.closed())
 
@@ -155,7 +151,7 @@ class ChannelTest(unittest.TestCase):
         futures = [channel.get() for _ in range(100)]
         futures.insert(50, wait_close())
 
-        result = self.arungather(*futures, return_exceptions=True)
+        result = self.rucgather(*futures, return_exceptions=True)
         result.pop(50)  # pop the result for wait_close()
         for res in result:
             self.assertIsInstance(res, ChannelClosed)
@@ -177,7 +173,7 @@ class ChannelTest(unittest.TestCase):
         futures = [channel.put(i) for i in range(100)]
         futures.insert(50, wait_close())
 
-        result = self.arungather(*futures, return_exceptions=True)
+        result = self.rucgather(*futures, return_exceptions=True)
         result.pop(50)  # pop the result for wait_close()
         for res in result:
             self.assertIsInstance(res, ChannelClosed)
@@ -208,12 +204,12 @@ class ChannelTest(unittest.TestCase):
             self.loop.create_task(runner())  # run the getters in the backgrund
             yield from asyncio.wait_for(channel.join(), timeout=2, loop=self.loop)
 
-        self.arun(test())
+        self.ruc(test())
 
     def test_put_when_closed(self):
         channel = Channel(1, loop=self.loop)
         channel.close()
-        self.assertRaises(ChannelClosed, lambda: self.arun(channel.put("foo")))
+        self.assertRaises(ChannelClosed, lambda: self.ruc(channel.put("foo")))
 
     def test_double_close(self):
         channel = Channel(1, loop=self.loop)
@@ -225,7 +221,7 @@ class ChannelTest(unittest.TestCase):
 
     def test_putter_cancel(self):
         channel = Channel(1, loop=self.loop)
-        self.arun(channel.put("foo"))
+        self.ruc(channel.put("foo"))
         # next put will block as channel is full
         self.assertTrue(channel.full())
 
@@ -238,12 +234,12 @@ class ChannelTest(unittest.TestCase):
             yield from asyncio.sleep(0.01, loop=self.loop)
             channel._putters[0].cancel()
 
-        result = self.arungather(test_put(), test_cancel(), return_exceptions=True)
+        result = self.rucgather(test_put(), test_cancel(), return_exceptions=True)
         self.assertIsInstance(result[0], asyncio.CancelledError)
 
     def test_putter_exception(self):
         channel = Channel(1, loop=self.loop)
-        self.arun(channel.put("foo"))
+        self.ruc(channel.put("foo"))
         # next put will block as channel is full
         self.assertTrue(channel.full())
 
@@ -257,7 +253,7 @@ class ChannelTest(unittest.TestCase):
             channel._maxsize = 2  # For hitting a different code branch in Channel
             channel._putters[0].set_exception(TypeError('random type error'))
 
-        result = self.arungather(test_put(), test_cancel(), return_exceptions=True)
+        result = self.rucgather(test_put(), test_cancel(), return_exceptions=True)
         self.assertIsInstance(result[0], TypeError)
 
     def test_getter_cancel(self):
@@ -272,7 +268,7 @@ class ChannelTest(unittest.TestCase):
             yield from asyncio.sleep(0.01, loop=self.loop)
             channel._getters[0].cancel()
 
-        result = self.arungather(test_get(), test_cancel(), return_exceptions=True)
+        result = self.rucgather(test_get(), test_cancel(), return_exceptions=True)
         self.assertIsInstance(result[0], asyncio.CancelledError)
 
     def test_getter_exception(self):
@@ -288,7 +284,7 @@ class ChannelTest(unittest.TestCase):
             channel.empty = lambda: False  # For hitting a different code branch in Channel
             channel._getters[0].set_exception(TypeError('random type error'))
 
-        result = self.arungather(test_get(), test_cancel(), return_exceptions=True)
+        result = self.rucgather(test_get(), test_cancel(), return_exceptions=True)
 
         self.assertIsInstance(result[0], TypeError)
 
@@ -301,7 +297,7 @@ class ChannelTest(unittest.TestCase):
             channel.put_nowait("foo")
             channel.put_nowait("foo")
 
-        self.arungather(channel.get(), channel.get(), test_done_first_then_put())
+        self.rucgather(channel.get(), channel.get(), test_done_first_then_put())
 
     def test_get_nowait_raises_closed(self):
         channel = Channel(1, loop=self.loop)
