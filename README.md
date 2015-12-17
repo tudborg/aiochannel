@@ -83,3 +83,16 @@ Like the `asyncio.Queue` you can also call non-coroutine get and put:
     # (Note that ChannelClosed emplies that the channel
     # is empty, but also that is will never fill again)
 ```
+
+As of `0.2.0` `Channel` also implements the async iterator protocol.
+You can now use `async for` to iterate over the channel until it closes,
+without having to deal with `ChannelClosed` exceptions.
+
+```py
+    
+    # the channel might contain data here
+    async for item in channel:
+        print(item)
+    # the channel is closed and empty here
+
+```
