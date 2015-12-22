@@ -39,7 +39,7 @@ is empty).
     my_channel = Channel(100, asyncio.get_event_loop())
 
     # You add items to the channel with
-    yield from my_channel.put("my item")
+    await my_channel.put("my item")
     # Note that this can throw ChannelClosed if the channel
     # is closed, during the attempt at adding the item
     # to the channel. Also note that .put() will block until
@@ -47,14 +47,14 @@ is empty).
 
 
     # Retrieving is done with
-    my_item = yield from my_channel.get()
+    my_item = await my_channel.get()
     # Note that this can also throw ChannelClosed if the
     # channel is closed before or during retrival.
     # .get() will block until an item can be retrieved.
 
 
     # You can wait for the channel to be closed and drained:
-    yield from my_channel.join()
+    await my_channel.join()
     # Note that this requires someone else to close and drain
     # the channel.
 
