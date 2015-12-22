@@ -12,10 +12,19 @@ ROOT_DIR = path.abspath(path.dirname(__file__))
 SRC_DIR = path.join(ROOT_DIR, 'aiochannel')
 VERSION = imp.load_source('version', path.join(SRC_DIR, 'version.py'))
 VERSION = VERSION.__version__
+README  = path.join(ROOT_DIR, 'README.md')
 
 REQUIRES = []
 
-LONG_DESCRIPTION = io.open(path.join(ROOT_DIR, 'README.md'), 'r', encoding='utf-8').read()
+from setuptools import setup
+try:
+    from pypandoc import convert
+    read_md = lambda f: convert(f, 'rst')
+except ImportError:
+    print("warning: pypandoc module not found, could not convert Markdown to RST")
+    read_md = lambda f: io.open(README, 'r', encoding='utf-8').read()
+
+LONG_DESCRIPTION = read_md(README)
 
 packages = find_packages(exclude=['tests'])
 

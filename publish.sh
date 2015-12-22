@@ -9,6 +9,11 @@ if [ -z "$password" ]; then
     read -s -p "PyPI Pass: " password
 fi
 
+function clean {
+    rm ~/.pypirc
+}
+trap clean EXIT
+
 echo -e "
 [distutils]
 index-servers =
