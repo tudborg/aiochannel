@@ -12,11 +12,10 @@ ROOT_DIR = path.abspath(path.dirname(__file__))
 SRC_DIR = path.join(ROOT_DIR, 'aiochannel')
 VERSION = imp.load_source('version', path.join(SRC_DIR, 'version.py'))
 VERSION = VERSION.__version__
-README  = path.join(ROOT_DIR, 'README.md')
+README = path.join(ROOT_DIR, 'README.md')
 
 REQUIRES = []
 
-from setuptools import setup
 try:
     from pypandoc import convert
     read_md = lambda f: convert(f, 'rst')
