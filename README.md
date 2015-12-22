@@ -7,10 +7,20 @@ Channel concept for asyncio.
 
 *requires* Python 3.4.4+ (I think)
 
+[PyPI link](https://pypi.python.org/pypi/aiochannel)
+
 
 Stability
 -----------
 alpha-ish?
+
+
+Install
+-----------
+
+```
+pip install aiochannel
+```
 
 
 Usage
