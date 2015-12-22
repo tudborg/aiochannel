@@ -96,3 +96,17 @@ without having to deal with `ChannelClosed` exceptions.
     # the channel is closed and empty here
 
 ```
+
+which is functionally equivalent to
+
+```py
+
+    while True:
+        try:
+            data = yield from channel.get()
+        except ChannelClosed:
+            break
+        
+        # process data here
+```
+
