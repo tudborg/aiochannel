@@ -168,13 +168,11 @@ class Channel(object):
         self._close.set()
         # cancel putters
         for putter in self._putters:
-            if not putter.done():
-                putter.set_exception(ChannelClosed())
+            putter.set_exception(ChannelClosed())
         # cancel getters that can't ever return (as no more items can be added)
         while len(self._getters) > self.qsize():
             getter = self._getters.pop()
-            if not getter.done():
-                getter.set_exception(ChannelClosed())
+            getter.set_exception(ChannelClosed())
 
         if self.empty():
             # already empty, mark as finished
@@ -185,12 +183,12 @@ class Channel(object):
         return self._close.is_set()
 
     @coroutine
-    def __aiter__(self):
+    def __aiter__(self):  # pragma: no cover
         """Returns an async iterator (self)"""
         return self
 
     @coroutine
-    def __anext__(self):
+    def __anext__(self):  # pragma: no cover
         try:
             data = yield from self.get()
         except ChannelClosed:
