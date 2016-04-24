@@ -37,7 +37,7 @@ setup(
     description='asyncio Channels (closable queues) inspired by golang',
     long_description=LONG_DESCRIPTION,
     classifiers=[
-        'Development Status :: 3 - Alpha',
+        'Development Status :: 4 - Beta',
         'License :: OSI Approved :: Apache Software License',
         'Natural Language :: English',
         'Intended Audience :: Developers',
@@ -45,6 +45,7 @@ setup(
         'Operating System :: MacOS :: MacOS X',
         'Operating System :: Microsoft :: Windows',
         'Operating System :: POSIX',
+        'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
     ],
     keywords='asyncio aio chan channel gochan',
