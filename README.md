@@ -5,14 +5,15 @@ aiochannel - AsyncIO Channel
 
 Channel concept for asyncio.
 
-*requires* Python 3.4.4+ (I think)
+*requires* Python 3.4.3+, and some features are only available
+with higher versions.
 
 [PyPI link](https://pypi.python.org/pypi/aiochannel)
 
 
 Stability
 -----------
-alpha-ish?
+beta-ish
 
 
 Install
@@ -28,7 +29,7 @@ Usage
 
 ### Basics
 
-Channels are 90% `asyncio.Queue`, and the API is very similar.
+Most of the `Channel` code is from `asyncio.Queue`, and the API is very similar.
 The key difference is that a channel is only considered "done"
 when it has been both closed and drained, so calling `.join()`
 on a channel will wait for it to be both closed and drained
@@ -120,3 +121,20 @@ which is functionally equivalent to
         # process data here
 ```
 
+
+### Noteworthy changes
+
+#### 0.2.0
+
+`Channel` implements the async iterator protocol.
+You can use `async for` to iterate over the channel until it closes,
+without having to deal with `ChannelClosed` exceptions.
+
+See the `async for` example.
+
+#### 0.2.3
+
+`Channel` proxies it's `__iter__` to the underlying
+queue implementation's `__iter__` (which by default is `collections.deque`),
+meaning that you are now able to iterate channel values
+(which also enables `list(channel)`).
