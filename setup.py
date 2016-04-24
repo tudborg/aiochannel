@@ -18,10 +18,14 @@ REQUIRES = []
 
 try:
     from pypandoc import convert
-    read_md = lambda f: convert(f, 'rst')
+
+    def read_md(f):
+        return convert(f, 'rst')
 except ImportError:
     print("warning: pypandoc module not found, could not convert Markdown to RST")
-    read_md = lambda f: io.open(README, 'r', encoding='utf-8').read()
+
+    def read_md(f):
+        return io.open(README, 'r', encoding='utf-8').read()
 
 LONG_DESCRIPTION = read_md(README)
 

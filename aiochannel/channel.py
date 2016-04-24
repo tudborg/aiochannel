@@ -20,6 +20,9 @@ class Channel(object):
             self._loop = get_event_loop()
         else:
             self._loop = loop
+
+        if not isinstance(maxsize, int) or maxsize < 0:
+            raise TypeError("maxsize must be an integer >= 0 (default is 0)")
         self._maxsize = maxsize
 
         # Futures.
@@ -194,3 +197,6 @@ class Channel(object):
             raise StopAsyncIteration
         else:
             return data
+
+    def __iter__(self):
+        return iter(self._queue)
