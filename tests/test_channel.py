@@ -30,6 +30,10 @@ class ChannelTest(TestCase):
         channel = Channel(maxsize=1, loop=self.loop)
         self.assertEqual(channel.maxsize, 1)
 
+        self.assertRaises(TypeError, lambda: Channel([], loop=self.loop))
+        self.assertRaises(TypeError, lambda: Channel(1.0, loop=self.loop))
+        self.assertRaises(TypeError, lambda: Channel(-1, loop=self.loop))
+
     def test_default_loop(self):
         new_loop = asyncio.new_event_loop()
         asyncio.set_event_loop(new_loop)
@@ -308,3 +312,8 @@ class ChannelTest(TestCase):
         self.assertEqual(item, "foo")
 
         self.assertRaises(ChannelClosed, lambda: channel.get_nowait())
+
+    def test_iter(self):
+        channel = Channel(loop=self.loop)
+        [channel.put_nowait(n) for n in range(5)]
+        self.assertEqual(list(range(5)), list(channel))
