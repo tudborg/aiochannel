@@ -1,4 +1,4 @@
-from .errors import *
+from .errors import ChannelClosed, ChannelFull, ChannelEmpty
 from collections import deque
 from asyncio import Event, Future, coroutine, get_event_loop
 
@@ -98,7 +98,7 @@ class Channel(object):
                 yield from putter
             except ChannelClosed:
                 raise
-            except:
+            except BaseException:
                 putter.cancel()  # Just in case putter is not done yet.
                 if not self.full() and not putter.cancelled():
                     # We were woken up by get_nowait(), but can't take
@@ -131,7 +131,7 @@ class Channel(object):
                 yield from getter
             except ChannelClosed:
                 raise
-            except:
+            except BaseException:
                 getter.cancel()  # Just in case getter is not done yet.
                 if not self.empty() and not getter.cancelled():
                     # We were woken up by put_nowait(), but can't take
