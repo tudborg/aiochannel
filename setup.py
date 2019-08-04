@@ -16,16 +16,9 @@ README = path.join(ROOT_DIR, 'README.md')
 
 REQUIRES = []
 
-try:
-    from pypandoc import convert
-
-    def read_md(f):
-        return convert(f, 'rst')
-except ImportError:
-    print("warning: pypandoc module not found, could not convert Markdown to RST")
-
-    def read_md(f):
-        return io.open(README, 'r', encoding='utf-8').read()
+from pypandoc import convert
+def read_md(f):
+    return convert(f, 'rst')
 
 LONG_DESCRIPTION = read_md(README)
 
@@ -37,7 +30,7 @@ setup(
     description='asyncio Channels (closable queues) inspired by golang',
     long_description=LONG_DESCRIPTION,
     classifiers=[
-        'Development Status :: 4 - Beta',
+        'Development Status :: 5 - Production/Stable',
         'License :: OSI Approved :: Apache Software License',
         'Natural Language :: English',
         'Intended Audience :: Developers',
@@ -45,13 +38,15 @@ setup(
         'Operating System :: MacOS :: MacOS X',
         'Operating System :: Microsoft :: Windows',
         'Operating System :: POSIX',
-        'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3 :: Only'
     ],
     keywords='asyncio aio chan channel gochan',
     author='Henrik Tudborg',
     author_email='henrik@tud.org',
-    url='github.com/tbug/aiochannel',
+    url='https://github.com/tbug/aiochannel',
     packages=packages,
     include_package_data=True,
     zip_safe=False,

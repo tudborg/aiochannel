@@ -1,6 +1,6 @@
 from .errors import ChannelClosed, ChannelFull, ChannelEmpty
 from collections import deque
-from asyncio import Event, Future, coroutine, get_event_loop
+from asyncio import Event, Future, get_event_loop
 
 
 #
@@ -83,8 +83,7 @@ class Channel(object):
         else:
             return self.qsize() >= self._maxsize
 
-    @coroutine
-    def put(self, item):
+    async def put(self, item):
         """Put an item into the channel.
         If the channel is full, wait until a free
         slot is available before adding item.
@@ -95,7 +94,7 @@ class Channel(object):
             putter = Future(loop=self._loop)
             self._putters.append(putter)
             try:
-                yield from putter
+                await putter
             except ChannelClosed:
                 raise
             except BaseException:
@@ -118,8 +117,7 @@ class Channel(object):
         self._put(item)
         self._wakeup_next(self._getters)
 
-    @coroutine
-    def get(self):
+    async def get(self):
         """Remove and return an item from the channel.
         If channel is empty, wait until an item is available.
         This method is a coroutine.
@@ -128,7 +126,7 @@ class Channel(object):
             getter = Future(loop=self._loop)
             self._getters.append(getter)
             try:
-                yield from getter
+                await getter
             except ChannelClosed:
                 raise
             except BaseException:
@@ -157,11 +155,10 @@ class Channel(object):
         self._wakeup_next(self._putters)
         return item
 
-    @coroutine
-    def join(self):
+    async def join(self):
         """Block until channel is closed and channel is drained
         """
-        yield from self._finished.wait()
+        await self._finished.wait()
 
     def close(self):
         """Marks the channel is closed and throw a ChannelClosed in all pending putters"""
@@ -182,15 +179,13 @@ class Channel(object):
         """Returns True if the Channel is marked as closed"""
         return self._close.is_set()
 
-    @coroutine
-    def __aiter__(self):  # pragma: no cover
+    def __aiter__(self):
         """Returns an async iterator (self)"""
         return self
 
-    @coroutine
-    def __anext__(self):  # pragma: no cover
+    async def __anext__(self):
         try:
-            data = yield from self.get()
+            data = await self.get()
         except ChannelClosed:
             raise StopAsyncIteration
         else:

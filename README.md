@@ -5,15 +5,9 @@ aiochannel - AsyncIO Channel
 
 Channel concept for asyncio.
 
-*requires* Python 3.4.3+, and some features are only available
-with higher versions.
+*requires* Python 3.5+
 
 [PyPI link](https://pypi.python.org/pypi/aiochannel)
-
-
-Stability
------------
-beta-ish
 
 
 Install
@@ -78,16 +72,16 @@ is empty).
         print ("Channel is closed")
 ```
 
-Like the `asyncio.Queue` you can also call non-coroutine get and put:
+Like the `asyncio.Queue` you can also call non-async get and put:
 
 ```py
     
-    # non-coroutine version of put
+    # non-async version of put
     my_channel.put_nowait(item)
     # This either returns None,
     # or raises ChannelClosed or ChannelFull
 
-    # non-coroutine version of get
+    # non-async version of get
     my_channel.get_nowait()
     # This either returns the next item from the channel
     # or raises ChannelEmpty or ChannelClosed
@@ -138,3 +132,8 @@ See the `async for` example.
 queue implementation's `__iter__` (which by default is `collections.deque`),
 meaning that you are now able to iterate channel values
 (which also enables `list(channel)`).
+
+#### 1.0.0
+
+Dropping 3.4's `@coroutine` annotations.
+Everything is now defined with `async`. 

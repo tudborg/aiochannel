@@ -1,1 +1,1 @@
-pip install tox coveralls --use-mirrors
+pip install tox coveralls
