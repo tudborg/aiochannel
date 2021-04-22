@@ -1,9 +1,4 @@
-
-#
-# Stolen from Falcon (falconframework.org)
-#
 import imp
-import io
 from os import path
 from setuptools import setup, find_packages
 
