@@ -142,5 +142,12 @@ values (which also enables ``list(channel)``).
 Dropping 3.4’s ``@coroutine`` annotations. Everything is now defined
 with ``async``.
 
+
+1.1.0
+^^^^^
+
+Dropping Python 3.5 support.
+
+
 .. |Build Status| image:: https://github.com/tbug/aiochannel/actions/workflows/test.yml/badge.svg
    :target: https://github.com/tbug/aiochannel/actions/workflows/test.yml
