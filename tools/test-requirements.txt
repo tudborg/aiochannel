@@ -1,1 +1,4 @@
+flake8
+pylint
 coverage
+aiounittest
