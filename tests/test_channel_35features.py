@@ -1,27 +1,26 @@
-from .case import TestCase
+import aiounittest
+import asyncio
 from aiochannel import Channel
 
 
-class ChannelTest(TestCase):
-    def test_async_iterator(self):
+class ChannelTest(aiounittest.AsyncTestCase):
+    async def test_async_iterator(self):
         """
             Test that we can even construct a Channel
         """
-        channel = Channel(loop=self.loop)
+        channel = Channel()
         [channel.put_nowait(i) for i in range(10)]
         channel.close()
 
-        async def test():
-            s = 0
-            async for item in channel:
-                s += item
-            return s
+        s = 0
+        async for item in channel:
+            s += item
+        return s
 
-        result = self.ruc(test())
-        self.assertEqual(result, sum(range(10)))
+        self.assertEqual(s, sum(range(10)))
 
-    def test_async_iterator_aborts_not_raises(self):
-        channel = Channel(loop=self.loop)
+    async def test_async_iterator_aborts_not_raises(self):
+        channel = Channel()
 
         async def test():
             s = 1
@@ -30,8 +29,9 @@ class ChannelTest(TestCase):
             return s
 
         async def abort():
-            await self.sleep(0.01)
+            await asyncio.sleep(0.01)
             channel.close()
 
-        (result, _) = self.rucgather(test(), abort())
+        (result, _) = await asyncio.gather(test(), abort())
+
         self.assertEqual(result, 1)

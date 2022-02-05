@@ -30,8 +30,8 @@ class Channel(object):
         self._putters = deque()
 
         # "finished" means channel is closed and drained
-        self._finished = Event(loop=self._loop)
-        self._close = Event(loop=self._loop)
+        self._finished = Event()
+        self._close = Event()
 
         self._init()
 
