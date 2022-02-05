@@ -32,6 +32,6 @@ jobs:
         python -m pip install tox flake8 pylint coverage
     - name: Test & lint with tox
       env:
-        TOXENV=${{ matrix.toxenv }}
+        TOXENV: ${{ matrix.toxenv }}
       run: |
         tox
