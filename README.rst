@@ -142,5 +142,5 @@ values (which also enables ``list(channel)``).
 Dropping 3.4’s ``@coroutine`` annotations. Everything is now defined
 with ``async``.
 
-.. |Build Status| image:: https://travis-ci.org/tbug/aiochannel.svg?branch=master
-   :target: https://travis-ci.org/tbug/aiochannel
+.. |Build Status| image:: https://github.com/tbug/aiochannel/actions/workflows/test.yml/badge.svg
+   :target: https://github.com/tbug/aiochannel/actions/workflows/test.yml
