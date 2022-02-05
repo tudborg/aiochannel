@@ -1,6 +1,8 @@
 [run]
 branch = True
 command_line = -m unittest
+omit =
+  tests/*
 
 [report]
 fail_under = 100

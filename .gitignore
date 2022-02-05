@@ -48,3 +48,6 @@ doc/_build
 
 # VIM temp files
 *~
+
+__pycache__/
+.tool-versions
