@@ -11,13 +11,15 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.8", "3.9"]
-
+        include:
+          - python-version: '3.8'
+            toxenv: py38
+          - python-version: '3.9'
+            toxenv: py39
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python ${{ matrix.python-version }}
@@ -27,12 +29,9 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        python -m pip install flake8 pylint coverage
-    - name: Lint
+        python -m pip install tox flake8 pylint coverage
+    - name: Test & lint with tox
+      env:
+        TOXENV=${{ matrix.toxenv }}
       run: |
-        flake8 --max-complexity=15 --exclude=dist,doc --ignore=F403 --max-line-length=99
-        pylint aiochannel --ignore=tests -E
-    - name: Test with coverage
-      run: |
-        coverage run
-        coverage report
+        tox
