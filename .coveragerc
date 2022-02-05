@@ -1,0 +1,9 @@
+[run]
+branch = True
+command_line = -m unittest
+
+[report]
+fail_under = 100
+show_missing = True
+
+[html]
