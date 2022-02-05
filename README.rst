@@ -5,7 +5,7 @@ aiochannel - AsyncIO Channel
 
 Channel concept for asyncio.
 
-*requires* Python 3.5+
+*requires* Python 3.6+
 
 `PyPI link <https://pypi.python.org/pypi/aiochannel>`__
 
@@ -24,7 +24,7 @@ Basics
 
 Most of the ``Channel`` code is from ``asyncio.Queue``, and the API is
 very similar. The key difference is that a channel is only considered
-“done” when it has been both closed and drained, so calling ``.join()``
+"done" when it has been both closed and drained, so calling ``.join()``
 on a channel will wait for it to be both closed and drained (Unlike
 ``Queue`` which will return from ``.join()`` once the queue is empty).
 
