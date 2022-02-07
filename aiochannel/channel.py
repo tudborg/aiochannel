@@ -165,11 +165,13 @@ class Channel(object):
         self._close.set()
         # cancel putters
         for putter in self._putters:
-            putter.set_exception(ChannelClosed())
+            if not putter.cancelled():
+                putter.set_exception(ChannelClosed())
         # cancel getters that can't ever return (as no more items can be added)
         while len(self._getters) > self.qsize():
             getter = self._getters.pop()
-            getter.set_exception(ChannelClosed())
+            if not getter.cancelled():
+                getter.set_exception(ChannelClosed())
 
         if self.empty():
             # already empty, mark as finished
