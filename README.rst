@@ -7,7 +7,8 @@ Channel concept for asyncio.
 
 *requires* Python 3.6+
 
-`PyPI link <https://pypi.python.org/pypi/aiochannel>`__
+`PyPI link <https://pypi.org/project/aiochannel>`__
+`GitHub link <https://github.com/tbug/aiochannel>`__
 
 Install
 -------
@@ -22,8 +23,8 @@ Usage
 Basics
 ~~~~~~
 
-Most of the ``Channel`` code is from ``asyncio.Queue``, and the API is
-very similar. The key difference is that a channel is only considered
+``Channel`` has a very similar API to ``asyncio.Queue``.
+The key difference is that a channel is only considered
 "done" when it has been both closed and drained, so calling ``.join()``
 on a channel will wait for it to be both closed and drained (Unlike
 ``Queue`` which will return from ``.join()`` once the queue is empty).
@@ -147,6 +148,12 @@ with ``async``.
 ^^^^^
 
 Dropping Python 3.5 support.
+
+
+1.1.1
+^^^^^
+
+Fixing an ``InvalidStateError`` when get or put futures were cancelled.
 
 
 .. |Build Status| image:: https://github.com/tbug/aiochannel/actions/workflows/test.yml/badge.svg
