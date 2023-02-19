@@ -1,4 +1,5 @@
 |Build Status|
+|Python Versions|
 
 aiochannel - AsyncIO Channel
 ============================
@@ -182,3 +183,6 @@ Fixing an ``InvalidStateError`` when get or put futures were cancelled.
 
 .. |Build Status| image:: https://github.com/tbug/aiochannel/actions/workflows/test.yml/badge.svg
    :target: https://github.com/tbug/aiochannel/actions/workflows/test.yml
+
+.. |Python Versions| image:: https://img.shields.io/pypi/pyversions/aiochannel.svg
+   :target: https://pypi.org/project/aiochannel/
