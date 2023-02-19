@@ -3,7 +3,7 @@ name = "aiochannel"
 version = "1.2.0"
 description = "asyncio Channels (closable queues) inspired by golang"
 authors = ["Henrik Tudborg <henrik@tudb.org>"]
-readme = "README.rst"
+readme = "README.md"
 license = "Apache-2.0"
 keywords=["asyncio", "aio", "chan", "channel", "gochan"]
 homepage = "https://github.com/tbug/aiochannel"
@@ -44,7 +44,7 @@ tox = "^4.0"
 pytest = "^7.2.1"
 pytest-cov = "^4.0.0"
 types-setuptools = "^67.3.0.1"
-pytest-rst = "^0.1.5"
+pytest-codeblocks = "^0.16.1"
 
 [build-system]
 requires = ["poetry-core"]
