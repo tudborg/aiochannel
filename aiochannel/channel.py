@@ -1,8 +1,7 @@
 from .errors import ChannelClosed, ChannelFull, ChannelEmpty
 from collections import deque
 from asyncio import AbstractEventLoop, Event, Future, get_event_loop
-from typing import Any, Deque, Generic, Iterator, TypeVar
-
+from typing import Any, Deque, Generic, Iterator, TypeVar, Optional
 
 T = TypeVar("T", bound=Any)
 
@@ -27,11 +26,10 @@ class Channel(Generic[T]):
     _close: Event
     _queue: Deque[T]
 
-    def __init__(self, maxsize=0, *, loop=None):
-        if loop is None:
-            self._loop = get_event_loop()
-        else:
-            self._loop = loop
+    def __init__(
+        self, maxsize: int = 0, *, loop: Optional[AbstractEventLoop] = None
+    ) -> None:
+        self._loop = loop or get_event_loop()
 
         if not isinstance(maxsize, int) or maxsize < 0:
             raise TypeError("maxsize must be an integer >= 0 (default is 0)")

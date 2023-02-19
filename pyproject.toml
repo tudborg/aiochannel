@@ -1,0 +1,93 @@
+[tool.poetry]
+name = "aiochannel"
+version = "1.2.0"
+description = "asyncio Channels (closable queues) inspired by golang"
+authors = ["Henrik Tudborg <henrik@tudb.org>"]
+readme = "README.rst"
+license = "Apache-2.0"
+keywords=["asyncio", "aio", "chan", "channel", "gochan"]
+homepage = "https://github.com/tbug/aiochannel"
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "License :: OSI Approved :: Apache Software License",
+  "Natural Language :: English",
+  "Intended Audience :: Developers",
+  "Intended Audience :: System Administrators",
+  "Operating System :: MacOS :: MacOS X",
+  "Operating System :: Microsoft :: Windows",
+  "Operating System :: POSIX",
+  "Programming Language :: Python :: 3.7",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3 :: Only",
+  "Framework :: AsyncIO",
+  "Typing :: Typed",
+]
+packages = [{ include = "aiochannel" }]
+
+[tool.poetry.urls]
+"Source" = "https://github.com/tbug/aiochannel"
+"Tracker" = "https://github.com/tbug/aiochannel/issues"
+
+[tool.poetry.dependencies]
+# Python 3.6 has ended its life
+# pylint (2.16.2) requires Python >=3.7.2
+python = "^3.7.2"
+pylama = "^8.4.1"
+
+[tool.poetry.group.dev.dependencies]
+pylint = "^2.16.2"
+coverage = "^7.1.0"
+aiounittest = "^1.4.2"
+tox = "^4.0"
+pytest = "^7.2.1"
+pytest-cov = "^4.0.0"
+types-setuptools = "^67.3.0.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.mypy]
+check_untyped_defs = true
+disallow_any_generics = false
+disallow_incomplete_defs = true
+disallow_subclassing_any = true
+disallow_untyped_calls = true
+disallow_untyped_decorators = true
+disallow_untyped_defs = true
+follow_imports = "silent"
+no_implicit_reexport = true
+strict_optional = true
+warn_redundant_casts = true
+warn_unused_configs = true
+warn_unused_ignores = true
+files = [
+  "aiochannel",
+  "tests",
+]
+
+[[tool.mypy.overrides]]
+module = ["tests.*"]
+check_untyped_defs = true
+disallow_incomplete_defs = false
+disallow_untyped_calls = false
+disallow_untyped_decorators = false
+disallow_untyped_defs = false
+warn_unused_ignores = false
+
+[tool.pytest.ini_options]
+log_cli = true
+addopts = "--cov=aiochannel --cov-report=term-missing"
+
+[tool.pylama]
+linters = "pycodestyle,pyflakes,pylint"
+skip = ".tox,dist,doc,.venv*"
+ignore = "F403"
+max_complexity = 15
+
+[tool.pylama.linter.pycodestyle]
+max_line_length = 99
+show_pep8 = true
+show_source = true

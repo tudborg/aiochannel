@@ -1,4 +1,0 @@
-recursive-include tests *.py
-include tox.ini
-include README.md
-graft tools
