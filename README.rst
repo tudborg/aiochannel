@@ -32,46 +32,53 @@ on a channel will wait for it to be both closed and drained (Unlike
 *NOTE* Closing a channel is permanent. You cannot open it again.
 
 .. code-block:: python
-
+       :name: test_simple
 
        import asyncio
        from aiochannel import Channel
 
        # ...
 
-       # A Channel takes a max queue size and an loop
-       # both optional
-       my_channel = Channel(100, asyncio.get_event_loop())
+       async def main():
+           # A Channel takes a max queue size and an loop
+           # both optional. loop is not recommended as
+           # in asyncio is phasing out explicitly passed event-loop
+           my_channel: Channel[str] = Channel(100)
 
-       # You add items to the channel with
-       await my_channel.put("my item")
-       # Note that this can throw ChannelClosed if the channel
-       # is closed, during the attempt at adding the item
-       # to the channel. Also note that .put() will block until
-       # it can successfully add the item.
-
-
-       # Retrieving is done with
-       my_item = await my_channel.get()
-       # Note that this can also throw ChannelClosed if the
-       # channel is closed before or during retrival.
-       # .get() will block until an item can be retrieved.
+           # You add items to the channel with
+           await my_channel.put("my item")
+           # Note that this can throw ChannelClosed if the channel
+           # is closed, during the attempt at adding the item
+           # to the channel. Also note that .put() will block until
+           # it can successfully add the item.
 
 
-       # You can wait for the channel to be closed and drained:
-       await my_channel.join()
-       # Note that this requires someone else to close and drain
-       # the channel.
+           # Retrieving is done with
+           my_item = await my_channel.get()
+           # Note that this can also throw ChannelClosed if the
+           # channel is closed before or during retrival.
+           # .get() will block until an item can be retrieved.
 
-       # Lastly, you can close a channel with
-       my_channel.close()
-       # Every call to .put() after .close() will fail with
-       # a ChannelClosed.
-       # you can check if a channel is marked for closing with
-       if my_channel.closed():
-           print ("Channel is closed")
+           # Note that this requires someone else to close and drain
+           # the channel.
+           # Lastly, you can close a channel with `my_channel.close()`
+           # In this example, the event-loop call this asynchronously
+           asyncio.get_event_loop().call_later(0.1, my_channel.close)
+
+           # You can wait for the channel to be closed and drained:
+           await my_channel.join()
+
+           # Every call to .put() after .close() will fail with
+           # a ChannelClosed.
+           # you can check if a channel is marked for closing with
+           if my_channel.closed():
+               print ("Channel is closed")
+
+       asyncio.run(main())
+
 
 Like the ``asyncio.Queue`` you can also call non-async get and put:
+
 
 .. code-block:: python
 
@@ -115,6 +122,20 @@ which is functionally equivalent to
 
 Noteworthy changes
 ~~~~~~~~~~~~~~~~~~
+
+1.2.0
+^^^^^
+
+Added typing support with generics. Now you can specify the type
+explicitly, your IDE or mypy will follow this annotations.
+
+
+.. code-block:: python
+
+    from aiochannel import Channel
+
+    channel: Channel[str] = Channel(100)
+
 
 0.2.0
 ^^^^^

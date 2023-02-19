@@ -540,6 +540,18 @@ pytest = ">=4.6"
 testing = ["fields", "hunter", "process-tests", "pytest-xdist", "six", "virtualenv"]
 
 [[package]]
+name = "pytest-rst"
+version = "0.1.5"
+description = "Test code from RST documents with pytest"
+category = "dev"
+optional = false
+python-versions = ">=3.7,<4.0"
+files = [
+    {file = "pytest_rst-0.1.5-py3-none-any.whl", hash = "sha256:5a638ac231ec3f59e45b16fd568e8d2c7b0a993fade4a31941913f451be84724"},
+    {file = "pytest_rst-0.1.5.tar.gz", hash = "sha256:63315654b4cefd378b39b5210efdcd8a9361a2d9e466a4a26e6e9ac33e524983"},
+]
+
+[[package]]
 name = "snowballstemmer"
 version = "2.2.0"
 description = "This package provides 29 stemmers for 28 languages generated from Snowball algorithms."
@@ -793,4 +805,4 @@ testing = ["flake8 (<5)", "func-timeout", "jaraco.functools", "jaraco.itertools"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.7.2"
-content-hash = "45e48255c0a662233634f462b74933c72d1aec385077d1a9302d74fed9efcef7"
+content-hash = "8db16799db22fabeace27d8222a3c824a92a9b2a0275d39f77e8db55a80f1487"
