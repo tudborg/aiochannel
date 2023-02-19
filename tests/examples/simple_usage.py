@@ -8,38 +8,38 @@ NUMBER = 10000
 
 
 class SimpleUsageTest(unittest.TestCase):
+    @staticmethod
+    async def producer(out: Channel):
+        for i in range(NUMBER):
+            await out.put(i)
+        out.close()
+
+    @staticmethod
+    async def consumer(inp: Channel):
+        s = 0
+        while not inp.closed():
+            try:
+                item = await inp.get()
+            except ChannelClosed:
+                break
+            else:
+                s += item
+        inp.close()
+        return s
+
+    @staticmethod
+    async def pump(inp: Channel, out: Channel):
+        while not inp.closed() and not out.closed():
+            try:
+                item = await inp.get()
+            except ChannelClosed:
+                break
+            else:
+                await out.put(item)
+        out.close()
+
     def test_simple(self):
         loop = asyncio.get_event_loop()
-
-        @asyncio.coroutine
-        def producer(out):
-            for i in range(NUMBER):
-                yield from out.put(i)
-            out.close()
-
-        @asyncio.coroutine
-        def consumer(inp):
-            s = 0
-            while not inp.closed():
-                try:
-                    item = yield from inp.get()
-                except ChannelClosed:
-                    break
-                else:
-                    s += item
-            out.close()
-            return s
-
-        @asyncio.coroutine
-        def pump(inp, out):
-            while not inp.closed() and not out.closed():
-                try:
-                    item = yield from inp.get()
-                except ChannelClosed:
-                    break
-                else:
-                    yield from out.put(item)
-            out.close()
 
         # NOTE that 1 is a HORRIBLE maxsize for real-world use.
         #      Try to change it to something like 1000 and you
@@ -49,11 +49,11 @@ class SimpleUsageTest(unittest.TestCase):
 
         # A producer that emits an integer from range(NUMBER)
         # into the inp channel
-        loop.create_task(producer(inp))
+        loop.create_task(self.producer(inp))
         # A pump that just moves things from inp to out
-        loop.create_task(pump(inp, out))
+        loop.create_task(self.pump(inp, out))
         # A consumer that sums all items on channel out
-        consumer_task = loop.create_task(consumer(out))
+        consumer_task = loop.create_task(self.consumer(out))
 
         t = time()
         item_sum = loop.run_until_complete(consumer_task)

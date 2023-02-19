@@ -31,7 +31,7 @@ on a channel will wait for it to be both closed and drained (Unlike
 
 *NOTE* Closing a channel is permanent. You cannot open it again.
 
-.. code:: py
+.. code-block:: python
 
 
        import asyncio
@@ -73,9 +73,9 @@ on a channel will wait for it to be both closed and drained (Unlike
 
 Like the ``asyncio.Queue`` you can also call non-async get and put:
 
-.. code:: py
+.. code-block:: python
 
-       
+
        # non-async version of put
        my_channel.put_nowait(item)
        # This either returns None,
@@ -92,9 +92,9 @@ As of ``0.2.0`` ``Channel`` also implements the async iterator protocol.
 You can now use ``async for`` to iterate over the channel until it
 closes, without having to deal with ``ChannelClosed`` exceptions.
 
-.. code:: py
+.. code-block:: python
 
-       
+
        # the channel might contain data here
        async for item in channel:
            print(item)
@@ -102,7 +102,7 @@ closes, without having to deal with ``ChannelClosed`` exceptions.
 
 which is functionally equivalent to
 
-.. code:: py
+.. code-block:: python
 
 
        while True:
@@ -110,7 +110,7 @@ which is functionally equivalent to
                data = yield from channel.get()
            except ChannelClosed:
                break
-           
+
            # process data here
 
 Noteworthy changes
