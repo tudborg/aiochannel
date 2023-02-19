@@ -183,6 +183,11 @@ class Channel(Generic[T]):
             if not getter.cancelled():
                 getter.set_exception(ChannelClosed())
 
+        # the remaining getters can now be woken up:
+        while self._getters:
+            self._wakeup_next(self._getters)
+
+        # if channel is already empty, mark finished:
         if self.empty():
             # already empty, mark as finished
             self._finished.set()

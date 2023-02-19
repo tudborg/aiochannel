@@ -137,6 +137,9 @@ explicitly, your IDE or mypy will follow this annotations.
     channel: Channel[str] = Channel(100)
 
 
+Fixing issue #13 that could lead to "getters" waiting forever
+when a channel was closed with less items then pending getters.
+
 0.2.0
 ^^^^^
 
