@@ -1,3 +1,5 @@
+from typing import List
+
 import aiounittest
 import asyncio
 from aiochannel import Channel, ChannelClosed, ChannelFull, ChannelEmpty
@@ -288,3 +290,32 @@ class ChannelTest(aiounittest.AsyncTestCase):
         channel = Channel()
         [channel.put_nowait(n) for n in range(5)]
         self.assertEqual(list(range(5)), list(channel))
+
+    async def test_context_manager(self):
+        loop = asyncio.get_event_loop()
+
+        async def worker(channel: Channel[int]) -> List[int]:
+            items = []
+            async for item in channel:
+                items.append(item)
+                # context switch
+                await asyncio.sleep(0)
+            return items
+
+        channel: Channel[int]
+        async with Channel(10) as channel:
+            workers = [loop.create_task(worker(channel)) for _ in range(10)]
+
+            for item in range(1000):
+                await channel.put(item)
+
+            assert not channel.closed()
+
+        assert channel.closed()
+        results = set()
+
+        for items in await asyncio.gather(*workers):
+            for item in items:
+                results.add(item)
+
+        assert results == set(range(1000))

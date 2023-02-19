@@ -205,3 +205,18 @@ class Channel(Generic[T]):
 
     def __iter__(self) -> Iterator[T]:
         return iter(self._queue)
+
+    async def __aenter__(self) -> "Channel":
+        """
+        Returns the channel and closes it when the context manager exits.
+        At the same time, it waits until it is empty.
+        """
+        return self
+
+    async def __aexit__(self, exc_type: Any, exc_val: Any, exc_tb: Any) -> None:
+        """
+        Closes channel when the context manager exits.
+        At the same time, it waits until it is empty.
+        """
+        self.close()
+        await self.join()

@@ -120,6 +120,44 @@ which is functionally equivalent to
 
            # process data here
 
+Also, if you have multiple tasks that are consuming from a channel and want
+to wait for them, nothing is easier.
+
+.. code-block:: python
+       :name: test_context_manager
+
+       import asyncio
+       from aiochannel import Channel
+
+
+       async def worker(channel: Channel[str]) -> None:
+           async for string in channel:
+               print(string)
+           print("Channel closed")
+
+
+       async def main():
+           # Hint the type here
+
+           channel: Channel[str]
+           async with Channel(10) as channel:
+               event_loop = asyncio.get_event_loop()
+
+               # Create ten asynchronous tasks
+               workers = [
+                   event_loop.create_task(worker(channel))
+                   for _ in range(10)
+               ]
+
+               for index in range(100):
+                   await channel.put(str(index))
+
+           # Now we are waiting for all workers to exit
+           await asyncio.gather(*workers)
+
+       asyncio.run(main())
+
+
 Noteworthy changes
 ~~~~~~~~~~~~~~~~~~
 
