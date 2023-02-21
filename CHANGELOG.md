@@ -23,14 +23,14 @@
 -  `InvalidStateError` when get or put futures were cancelled.
 
 
-## [1.1.0] - ???
+## [1.1.0] - 2022-02-05
 
 ### Removed
 
 - Python 3.5 support.
 
 
-## [1.0.0] - ???
+## [1.0.0] - 2021-04-22
 
 
 ### Removed
@@ -38,17 +38,19 @@
 - 3.4’s `@coroutine` annotations. Everything is now defined with `async`.
 
 
+## [0.2.2] - 2015-12-22
 
-## [0.2.3] - ???
-
+### Added
 
 - `Channel` proxies it’s `__iter__` to the underlying queue
   implementation’s `__iter__` (which by default is
   `collections.deque`), meaning that you are now able to iterate channel
   values (which also enables `list(channel)`).
 
-## [0.2.0] - ???
 
+## [0.2.0] - 2015-12-18
+
+# Added
 
 - `Channel` implements the async iterator protocol. You can use
   `async for` to iterate over the channel until it closes, without
@@ -61,5 +63,5 @@
 [1.1.1]: https://github.com/tbug/aiochannel/releases/tag/v1.1.1
 [1.1.0]: https://github.com/tbug/aiochannel/releases/tag/v1.1.0
 [1.0.0]: https://github.com/tbug/aiochannel/releases/tag/v1.0.0
-[0.2.3]: https://github.com/tbug/aiochannel/releases/tag/v0.2.3
+[0.2.2]: https://github.com/tbug/aiochannel/releases/tag/v0.2.2
 [0.2.0]: https://github.com/tbug/aiochannel/releases/tag/v0.2.0
