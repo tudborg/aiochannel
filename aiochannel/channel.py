@@ -196,7 +196,7 @@ class Channel(Generic[T]):
         """Returns True if the Channel is marked as closed"""
         return self._close.is_set()
 
-    def __aiter__(self) -> "Channel":
+    def __aiter__(self) -> "Channel[T]":
         """Returns an async iterator (self)"""
         return self
 
