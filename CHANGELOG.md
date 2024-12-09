@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Changed
+
+- Updating dependencies and removing EOL pythons.
+
 
 ## [1.2.1] - 2023-03-01
 
