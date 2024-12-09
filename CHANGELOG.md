@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [1.3.0] - 2024-12-09
+
 ### Changed
 
 - Updating dependencies and removing EOL pythons.
@@ -70,6 +72,7 @@
 
 
 [Unreleased]: https://github.com/tbug/aiochannel/compare/v1.2.0...HEAD
+[1.3.0]: https://github.com/tbug/aiochannel/releases/tag/v1.3.0
 [1.2.1]: https://github.com/tbug/aiochannel/releases/tag/v1.2.1
 [1.2.0]: https://github.com/tbug/aiochannel/releases/tag/v1.2.0
 [1.1.1]: https://github.com/tbug/aiochannel/releases/tag/v1.1.1
