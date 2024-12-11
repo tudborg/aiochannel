@@ -25,7 +25,7 @@
 
 ### Fixed
 
-- https://github.com/tbug/aiochannel/issues/13
+- https://github.com/tudborg/aiochannel/issues/13
   A `get` could hang forever in some situations.
 
 
@@ -71,12 +71,12 @@
   See the `async for` example.
 
 
-[Unreleased]: https://github.com/tbug/aiochannel/compare/v1.2.0...HEAD
-[1.3.0]: https://github.com/tbug/aiochannel/releases/tag/v1.3.0
-[1.2.1]: https://github.com/tbug/aiochannel/releases/tag/v1.2.1
-[1.2.0]: https://github.com/tbug/aiochannel/releases/tag/v1.2.0
-[1.1.1]: https://github.com/tbug/aiochannel/releases/tag/v1.1.1
-[1.1.0]: https://github.com/tbug/aiochannel/releases/tag/v1.1.0
-[1.0.0]: https://github.com/tbug/aiochannel/releases/tag/v1.0.0
-[0.2.2]: https://github.com/tbug/aiochannel/releases/tag/v0.2.2
-[0.2.0]: https://github.com/tbug/aiochannel/releases/tag/v0.2.0
+[Unreleased]: https://github.com/tudborg/aiochannel/compare/v1.3.0...HEAD
+[1.3.0]: https://github.com/tudborg/aiochannel/releases/tag/v1.3.0
+[1.2.1]: https://github.com/tudborg/aiochannel/releases/tag/v1.2.1
+[1.2.0]: https://github.com/tudborg/aiochannel/releases/tag/v1.2.0
+[1.1.1]: https://github.com/tudborg/aiochannel/releases/tag/v1.1.1
+[1.1.0]: https://github.com/tudborg/aiochannel/releases/tag/v1.1.0
+[1.0.0]: https://github.com/tudborg/aiochannel/releases/tag/v1.0.0
+[0.2.2]: https://github.com/tudborg/aiochannel/releases/tag/v0.2.2
+[0.2.0]: https://github.com/tudborg/aiochannel/releases/tag/v0.2.0

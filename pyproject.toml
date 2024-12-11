@@ -6,7 +6,7 @@ authors = ["Henrik Tudborg <henrik@tudb.org>"]
 readme = "README.md"
 license = "Apache-2.0"
 keywords = ["asyncio", "aio", "chan", "channel", "gochan"]
-homepage = "https://github.com/tbug/aiochannel"
+homepage = "https://github.com/tudborg/aiochannel"
 classifiers = [
   "Development Status :: 5 - Production/Stable",
   "License :: OSI Approved :: Apache Software License",
@@ -28,8 +28,8 @@ classifiers = [
 packages = [{ include = "aiochannel" }]
 
 [tool.poetry.urls]
-"Source" = "https://github.com/tbug/aiochannel"
-"Tracker" = "https://github.com/tbug/aiochannel/issues"
+"Source" = "https://github.com/tudborg/aiochannel"
+"Tracker" = "https://github.com/tudborg/aiochannel/issues"
 
 [tool.poetry.dependencies]
 python = "^3.9"

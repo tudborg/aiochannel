@@ -1,6 +1,6 @@
 # aiochannel - AsyncIO Channel
 
-[![Build Status](https://github.com/tbug/aiochannel/actions/workflows/test.yml/badge.svg)][Build Status]
+[![Build Status](https://github.com/tudborg/aiochannel/actions/workflows/test.yml/badge.svg)][Build Status]
 [![Stable Version](https://img.shields.io/pypi/v/aiochannel?label=stable)][PyPI Releases]
 [![Python Versions](https://img.shields.io/pypi/pyversions/aiochannel)][PyPI]
 [![Download Stats](https://img.shields.io/pypi/dm/aiochannel)](https://pypistats.org/packages/aiochannel)
@@ -120,7 +120,7 @@ which is functionally equivalent to
 
   [PyPI]: https://pypi.org/project/aiochannel
   [PyPI Releases]: https://pypi.org/project/aiochannel/#history
-  [Github]: https://github.com/tbug/aiochannel
-  [Changelog]: https://github.com/tbug/aiochannel/blob/master/CHANGELOG.md
-  [Issue Tracker]: https://github.com/tbug/aiochannel/issues
-  [Build Status]: https://github.com/tbug/aiochannel/actions/workflows/test.yml
+  [Github]: https://github.com/tudborg/aiochannel
+  [Changelog]: https://github.com/tudborg/aiochannel/blob/master/CHANGELOG.md
+  [Issue Tracker]: https://github.com/tudborg/aiochannel/issues
+  [Build Status]: https://github.com/tudborg/aiochannel/actions/workflows/test.yml
