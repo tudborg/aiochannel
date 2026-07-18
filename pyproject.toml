@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "aiochannel"
-version = "1.3.0"
+version = "1.4.0"
 description = "asyncio Channels (closable queues) inspired by golang"
 authors = ["Henrik Tudborg <henrik@tudb.org>"]
 readme = "README.md"

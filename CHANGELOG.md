@@ -1,6 +1,10 @@
 # Changelog
 
-## [Unreleased]
+## [1.4.0] - 2026-07-18
+
+### Changed
+
+- Updating dependencies and removing EOL pythons.
 
 ## [1.3.0] - 2024-12-09
 
@@ -71,7 +75,8 @@
   See the `async for` example.
 
 
-[Unreleased]: https://github.com/tudborg/aiochannel/compare/v1.3.0...HEAD
+[Unreleased]: https://github.com/tudborg/aiochannel/compare/v1.4.0...HEAD
+[1.4.0]: https://github.com/tudborg/aiochannel/releases/tag/v1.4.0
 [1.3.0]: https://github.com/tudborg/aiochannel/releases/tag/v1.3.0
 [1.2.1]: https://github.com/tudborg/aiochannel/releases/tag/v1.2.1
 [1.2.0]: https://github.com/tudborg/aiochannel/releases/tag/v1.2.0
