@@ -1,9 +1,9 @@
 [tool.poetry]
 name = "aiochannel"
-version = "1.4.0"
+version = "1.4.1"
 description = "asyncio Channels (closable queues) inspired by golang"
-authors = ["Henrik Tudborg <henrik@tudb.org>"]
 readme = "README.md"
+authors = ["Henrik Tudborg"]
 license = "Apache-2.0"
 keywords = ["asyncio", "aio", "chan", "channel", "gochan"]
 homepage = "https://github.com/tudborg/aiochannel"
@@ -44,7 +44,7 @@ pytest-cov = "^7.1.0"
 types-setuptools = "^83.0.0.20260716"
 pytest-codeblocks = "^0.18.0"
 pylama = "^8.4.1"
-setuptools = ">=75.6,<81.0"
+setuptools = ">=75.6,<83.0"
 
 [build-system]
 requires = ["poetry-core"]

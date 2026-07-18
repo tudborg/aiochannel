@@ -13,9 +13,9 @@ T = TypeVar("T", bound=Any)
 #
 class Channel(Generic[T]):
     """
-        A Channel is a closable queue. A Channel is considered "finished" when
-        it is closed and drained (unlike a queue which is "finished" when the queue
-        is empty)
+    A Channel is a closable queue. A Channel is considered "finished" when
+    it is closed and drained (unlike a queue which is "finished" when the queue
+    is empty)
     """
 
     _getters: Deque[Future]
@@ -63,12 +63,14 @@ class Channel(Generic[T]):
                 break
 
     def __repr__(self) -> str:
-        return '<{} at {:#x} maxsize={!r} qsize={!r}>'.format(
-            type(self).__name__, id(self), self._maxsize, self.qsize())
+        return "<{} at {:#x} maxsize={!r} qsize={!r}>".format(
+            type(self).__name__, id(self), self._maxsize, self.qsize()
+        )
 
     def __str__(self) -> str:
-        return '<{} maxsize={!r} qsize={!r}>'.format(
-            type(self).__name__, self._maxsize, self.qsize())
+        return "<{} maxsize={!r} qsize={!r}>".format(
+            type(self).__name__, self._maxsize, self.qsize()
+        )
 
     def qsize(self) -> int:
         """Number of items in the channel buffer."""
@@ -166,8 +168,7 @@ class Channel(Generic[T]):
         return item
 
     async def join(self) -> None:
-        """Block until channel is closed and channel is drained
-        """
+        """Block until channel is closed and channel is drained"""
         await self._finished.wait()
 
     def close(self) -> None:

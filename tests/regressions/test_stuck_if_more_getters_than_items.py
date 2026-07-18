@@ -4,7 +4,6 @@ from aiochannel import Channel
 
 
 class Issue13(aiounittest.AsyncTestCase):
-
     async def test_stuck_if_more_getters_than_items(self):
         """
         This is taken literally from issue #13

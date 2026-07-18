@@ -6,7 +6,7 @@ from aiochannel import Channel, ChannelClosed, ChannelFull, ChannelEmpty
 class ChannelTest(aiounittest.AsyncTestCase):
     async def test_construct(self):
         """
-            Test that we can even construct a Channel
+        Test that we can even construct a Channel
         """
         channel = Channel(loop=asyncio.get_event_loop())
         self.assertEqual(channel.maxsize, 0)
@@ -31,13 +31,13 @@ class ChannelTest(aiounittest.AsyncTestCase):
 
     async def test_repr(self):
         channel = Channel()
-        self.assertEqual(repr(channel),
-                         "<Channel at 0x{:02x} maxsize=0 qsize=0>".format(id(channel)))
+        self.assertEqual(
+            repr(channel), "<Channel at 0x{:02x} maxsize=0 qsize=0>".format(id(channel))
+        )
 
     async def test_str(self):
         channel = Channel()
-        self.assertEqual(str(channel),
-                         "<Channel maxsize=0 qsize=0>")
+        self.assertEqual(str(channel), "<Channel maxsize=0 qsize=0>")
 
     async def test_put_nowait_get_nowait(self):
         channel = Channel(1)
@@ -48,7 +48,7 @@ class ChannelTest(aiounittest.AsyncTestCase):
 
     async def test_put_get(self):
         """
-            Simple put/get test
+        Simple put/get test
         """
         testitem = {"foo": "bar"}
         channel = Channel(1)
@@ -66,12 +66,10 @@ class ChannelTest(aiounittest.AsyncTestCase):
 
     async def test_fifo_ordering(self):
         """
-            Test that items maintain order
+        Test that items maintain order
         """
         channel = Channel(3)
-        testitems = [
-            "first", "second", "third"
-        ]
+        testitems = ["first", "second", "third"]
 
         for item in testitems:
             await channel.put(item)
@@ -83,15 +81,14 @@ class ChannelTest(aiounittest.AsyncTestCase):
         while not channel.empty():
             item = await channel.get()
             outitems.append(item)
-        return outitems
 
         self.assertEqual(outitems, testitems)
 
     async def test_get_throws_channel_closed(self):
         """
-            Test that even though a blocking .get() is pending
-            on an empty queue, a close() to that queue will make
-            the .get() throw a ChannelClosed error
+        Test that even though a blocking .get() is pending
+        on an empty queue, a close() to that queue will make
+        the .get() throw a ChannelClosed error
         """
         channel = Channel(1)
 
@@ -99,13 +96,15 @@ class ChannelTest(aiounittest.AsyncTestCase):
             await asyncio.sleep(0.01)
             channel.close()
 
-        (get_return, _) = await asyncio.gather(channel.get(), wait_close(), return_exceptions=True)
+        (get_return, _) = await asyncio.gather(
+            channel.get(), wait_close(), return_exceptions=True
+        )
         self.assertIsInstance(get_return, ChannelClosed)
 
     async def test_put_throws_channel_closed(self):
         """
-            Test that when a put blocks, and a channel is closed, the
-            put will throw a ChannelClosed instead of waiting to add to channel
+        Test that when a put blocks, and a channel is closed, the
+        put will throw a ChannelClosed instead of waiting to add to channel
         """
         channel = Channel(1)
         channel.put_nowait("foo")
@@ -116,17 +115,15 @@ class ChannelTest(aiounittest.AsyncTestCase):
             channel.close()
 
         (put_return, _) = await asyncio.gather(
-            channel.put("bar"),
-            wait_close(),
-            return_exceptions=True
+            channel.put("bar"), wait_close(), return_exceptions=True
         )
         self.assertIsInstance(put_return, ChannelClosed)
         self.assertTrue(channel.closed())
 
     async def test_multiple_blocking_gets(self):
         """
-            Test that a channel with multiple running get() still works
-            out fine when the channel is closed
+        Test that a channel with multiple running get() still works
+        out fine when the channel is closed
         """
         channel = Channel(1)
 
@@ -144,8 +141,8 @@ class ChannelTest(aiounittest.AsyncTestCase):
 
     async def test_multiple_blocking_puts(self):
         """
-            Test that a channel with multiple running put() still works
-            out fine when the channel is closed
+        Test that a channel with multiple running put() still works
+        out fine when the channel is closed
         """
         channel = Channel(1)
         channel.put_nowait("foo")
@@ -165,7 +162,7 @@ class ChannelTest(aiounittest.AsyncTestCase):
 
     async def test_join(self):
         """
-            Test that a channel is joinable (when closed, and queue empty)
+        Test that a channel is joinable (when closed, and queue empty)
         """
         channel = Channel(1000)
         [channel.put_nowait(i) for i in range(1000)]
@@ -231,7 +228,7 @@ class ChannelTest(aiounittest.AsyncTestCase):
         async def test_cancel():
             await asyncio.sleep(0.01)
             channel._maxsize = 2  # For hitting a different code branch in Channel
-            channel._putters[0].set_exception(TypeError('random type error'))
+            channel._putters[0].set_exception(TypeError("random type error"))
 
         result = await asyncio.gather(test_put(), test_cancel(), return_exceptions=True)
         self.assertIsInstance(result[0], TypeError)
@@ -257,8 +254,10 @@ class ChannelTest(aiounittest.AsyncTestCase):
 
         async def test_cancel():
             await asyncio.sleep(0.01)
-            channel.empty = lambda: False  # For hitting a different code branch in Channel
-            channel._getters[0].set_exception(TypeError('random type error'))
+            channel.empty = lambda: (
+                False
+            )  # For hitting a different code branch in Channel
+            channel._getters[0].set_exception(TypeError("random type error"))
 
         result = await asyncio.gather(test_get(), test_cancel(), return_exceptions=True)
 

@@ -58,7 +58,7 @@ class SimpleUsageTest(unittest.TestCase):
         t = time()
         item_sum = loop.run_until_complete(consumer_task)
         loop.close()
-        dt = (time() - t)
+        dt = time() - t
 
         message = """
         Example ran in {}, that is {} elements per second

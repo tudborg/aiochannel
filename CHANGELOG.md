@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.4.1] - 2026-07-18
+
+### Fixed
+
+- Test-cases `test_async_iterator` and `test_fifo_ordering` did not correctly assert results.
+
+### Changed
+
+- Code-formattet files.
+
 ## [1.4.0] - 2026-07-18
 
 ### Changed
@@ -75,7 +85,8 @@
   See the `async for` example.
 
 
-[Unreleased]: https://github.com/tudborg/aiochannel/compare/v1.4.0...HEAD
+[Unreleased]: https://github.com/tudborg/aiochannel/compare/v1.4.1...HEAD
+[1.4.1]: https://github.com/tudborg/aiochannel/releases/tag/v1.4.1
 [1.4.0]: https://github.com/tudborg/aiochannel/releases/tag/v1.4.0
 [1.3.0]: https://github.com/tudborg/aiochannel/releases/tag/v1.3.0
 [1.2.1]: https://github.com/tudborg/aiochannel/releases/tag/v1.2.1

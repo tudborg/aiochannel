@@ -6,7 +6,7 @@ from aiochannel import Channel
 class ChannelTest(aiounittest.AsyncTestCase):
     async def test_async_iterator(self):
         """
-            Test that we can even construct a Channel
+        Test that we can even construct a Channel
         """
         channel = Channel()
         [channel.put_nowait(i) for i in range(10)]
@@ -15,7 +15,6 @@ class ChannelTest(aiounittest.AsyncTestCase):
         s = 0
         async for item in channel:
             s += item
-        return s
 
         self.assertEqual(s, sum(range(10)))
 
