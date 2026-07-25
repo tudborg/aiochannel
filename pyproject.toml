@@ -44,7 +44,7 @@ pytest-cov = "^7.1.0"
 types-setuptools = "^83.0.0.20260716"
 pytest-codeblocks = "^0.18.0"
 pylama = "^8.4.1"
-setuptools = ">=75.6,<83.0"
+setuptools = ">=75.6,<84.0"
 
 [build-system]
 requires = ["poetry-core"]
